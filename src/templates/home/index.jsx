@@ -1,9 +1,13 @@
 //import logo from './logo.svg';
-import './App.css';
+import './style.css';
 import { Component } from 'react';
+import {loadPosts} from '../../utils/load-post';
+import { Posts } from '../../components/Posts';
+import { Button } from '../../components/Button';
+import { TextInput } from '../../components/TextInput';
 
 
-class App extends Component{
+export class Home extends Component{
   state = {
     //counter: 0,
     posts: [
@@ -22,41 +26,44 @@ class App extends Component{
       //   title: 'O titulo 3',
       //   body: 'O corpo 3'
       // }
-    ]
+    ],
+    allPosts: [],
+    page: 0,
+    postPerPage: 20,
+    searchValue: ''
   }
 
   //timeoutUpdate = null;
 
 //methodo realizado na montagem do componete
-  componentDidMount(){
+  async componentDidMount(){
        //this.handleTimeOut();
-       this.loadPosts();       
+     await this.loadPosts();       
   }
 
   loadPosts = async () => {
-    //recupera dados da url
-    const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
-    const photosResponse = fetch('https://jsonplaceholder.typicode.com/photos');
-
-    //resolve a promisse
-    const [posts, photos] = await Promise.all([postsResponse, photosResponse]);
-  
-    
-
-    //após resolvido a promisse transforma os dados em json
-    const postJson = await posts.json();
-    const photosJson = await photos.json();
-
-    const postsAndPhotos = postJson.map((post, index) => {
-      return {...post, cover: photosJson[index].url}
-    })
-
-
+    const {page, postPerPage} = this.state;
+    const postsAndPhotos = await loadPosts();
 
     //seta o estado colocando o post em json dentro da lista posts
-    this.setState({posts: postsAndPhotos});
-    
-    
+    this.setState({
+      posts: postsAndPhotos.slice(page, postPerPage),
+      allPosts: postsAndPhotos
+    });   
+  }
+
+  loadMorePosts = () => {
+    const {
+      page,
+      postPerPage,
+      allPosts,
+      posts
+    } = this.state;
+
+    const nextPage = page + postPerPage;
+    const nextPost = allPosts.slice(nextPage, nextPage + postPerPage);
+    posts.push(...nextPost);
+    this.setState({posts, page: nextPage});
   }
 //atualiza o componente a cada atualização realizada
   componentDidUpdate(){
@@ -68,31 +75,60 @@ class App extends Component{
     //clearTimeout(this.timeoutUpdate);
   }
 
-  handleTimeOut(){
-    const {posts} = this.state;
-    posts[0].title = 'O titulo mudou';
-    this.timeoutUpdate = setTimeout(()=>{
+  // handleTimeOut(){
+  //   const {posts} = this.state;
+  //   posts[0].title = 'O titulo mudou';
+  //   this.timeoutUpdate = setTimeout(()=>{
+  //   this.setState({
+  //     posts
+  //   })
+  //   }, 5000) 
+  // }
+
+  handleChange = (e) =>{
+    const {value} = e.target;
+    console.log(value);
     this.setState({
-      posts
+      searchValue: value
     })
-    }, 5000) 
+
   }
 
   render(){
-    const { posts } = this.state;
+    const { posts, page, postPerPage, allPosts, searchValue } = this.state;
+    const noMorePosts = page + postPerPage >= allPosts.length;
+
+    const filteredPosts = searchValue? allPosts.filter( post => {
+      return post.title.toLowerCase().includes(searchValue.toLocaleLowerCase());
+    }) : posts;
     return(
+      
       <section className='container'>
-        <div className='posts'>
-        {posts.map((element) => (
-          <div className='post'>
-            <img src={element.cover} alt={element.title}></img>
-            <div key={element.id} className='post-content'>
-            <h1>{element.title}</h1>
-            <p>{element.body}</p>
-          </div>
-          </div>
-          ))}
-      </div>
+        <div className='search-container'>
+          {searchValue && (
+              <h1>Search value: {searchValue}</h1>
+          )}
+          <TextInput
+            searchValue={searchValue}
+            handleChange={this.handleChange}
+          />
+        </div>
+       {filteredPosts.length > 0 && (
+        <Posts posts={filteredPosts}/>
+       )}
+       {filteredPosts.length === 0 &&(
+        <p>Não existem posts =( </p>
+       )}
+       <div className='button-container'>
+        {!searchValue && (
+          <Button 
+          text={'Load More Post'}
+          onClick={this.loadMorePosts}
+          disabled={noMorePosts}
+          />
+        )}
+       </div>
+       
       </section>
     )
   }
@@ -188,4 +224,3 @@ class App extends Component{
 // //   );
 // // }
 
-export default App;
