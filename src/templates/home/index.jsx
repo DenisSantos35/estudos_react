@@ -29,7 +29,7 @@ export class Home extends Component{
     ],
     allPosts: [],
     page: 0,
-    postPerPage: 20,
+    postPerPage: 2,
     searchValue: ''
   }
 
