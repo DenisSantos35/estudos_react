@@ -19,7 +19,7 @@ import { TextInput } from '../../components/TextInput';
 //     }, () => {
 //       console.log(this.state.counter);
 //     });
-    
+
 //   }
 
 //   render(){
@@ -28,7 +28,7 @@ import { TextInput } from '../../components/TextInput';
 //       <div className='container'>
 //         <h1>{counter}</h1>
 //         <button onClick={this.handleClick}>Increment</button>
-      
+
 //       </div>
 
 //     )
@@ -42,7 +42,7 @@ export const Home = () => {
   const [page, setPage] = useState(0);
   const [postPerPage] = useState(2);
   const [searchValue, setSearchValue] = useState('');
- 
+
   const noMorePosts = page + postPerPage >= allPosts.length;
 
   const filteredPosts = searchValue? allPosts.filter( post => {
@@ -78,7 +78,7 @@ export const Home = () => {
   }
 
 
-  return(    
+  return(
     <section className='container'>
       <div className='search-container'>
         {searchValue && (
@@ -97,14 +97,14 @@ export const Home = () => {
      )}
      <div className='button-container'>
       {!searchValue && (
-        <Button 
+        <Button
         text={'Load More Post'}
         onClick={loadMorePosts}
         disabled={noMorePosts}
         />
       )}
      </div>
-     
+
     </section>
   )
 }
@@ -143,7 +143,7 @@ export const Home = () => {
 // //methodo realizado na montagem do componete
 //   async componentDidMount(){
 //        //this.handleTimeOut();
-//      await this.loadPosts();       
+//      await this.loadPosts();
 //   }
 
 //   loadPosts = async () => {
@@ -154,7 +154,7 @@ export const Home = () => {
 //     this.setState({
 //       posts: postsAndPhotos.slice(page, postPerPage),
 //       allPosts: postsAndPhotos
-//     });   
+//     });
 //   }
 
 //   loadMorePosts = () => {
@@ -175,7 +175,7 @@ export const Home = () => {
 //     //this.handleTimeOut();
 //   }
 
-// //methodo de desmontagem 
+// //methodo de desmontagem
 //   componentWillUnmount(){
 //     //clearTimeout(this.timeoutUpdate);
 //   }
@@ -187,7 +187,7 @@ export const Home = () => {
 //   //   this.setState({
 //   //     posts
 //   //   })
-//   //   }, 5000) 
+//   //   }, 5000)
 //   // }
 
 //   handleChange = (e) =>{
@@ -207,7 +207,7 @@ export const Home = () => {
 //       return post.title.toLowerCase().includes(searchValue.toLocaleLowerCase());
 //     }) : posts;
 //     return(
-      
+
 //       <section className='container'>
 //         <div className='search-container'>
 //           {searchValue && (
@@ -226,14 +226,14 @@ export const Home = () => {
 //        )}
 //        <div className='button-container'>
 //         {!searchValue && (
-//           <Button 
+//           <Button
 //           text={'Load More Post'}
 //           onClick={this.loadMorePosts}
 //           disabled={noMorePosts}
 //           />
 //         )}
 //        </div>
-       
+
 //       </section>
 //     )
 //   }
@@ -297,10 +297,10 @@ export const Home = () => {
 //           Learn React
 //         </a>
 //       </header>
-      
+
 //     </div>
 //   );
-    
+
 //   }
 
 // }
@@ -324,7 +324,7 @@ export const Home = () => {
 // //           Learn React
 // //         </a>
 // //       </header>
-      
+
 // //     </div>
 // //   );
 // // }
