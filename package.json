@@ -8,6 +8,7 @@
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1"
   },
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -39,6 +40,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "eslint-plugin-react": "^7.37.4",
+    "msw": "^0.27.2",
     "prettier": "^3.4.2"
   }
 }
